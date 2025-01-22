@@ -112,10 +112,10 @@ const MainPage = () => {
             <li><Link to="/">Home</Link></li> 
             <li><Link to="/about">About Us</Link></li>
             <li><Link to="/contact">Contact Us</Link></li>
-              <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>FAQ</a></li>
+              {/* <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>FAQ</a></li>
               <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>Privacy Policy</a></li>
               <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>Terms & Conditions</a></li>
-              <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>Return & Refund Policy</a></li>
+              <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>Return & Refund Policy</a></li> */}
             </ul>
           </div>
 
@@ -134,10 +134,10 @@ const MainPage = () => {
           <div style={styles.footerColumn}>
             <h3 style={styles.footerHeading}>Follow Us</h3>
             <ul style={styles.footerLinkList}>
-              <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>Facebook</a></li>
+              {/* <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>Facebook</a></li> */}
               <li style={styles.footerLinkItem}><a target='_blank' href="https://wa.link/1sie4g" style={styles.footerLink}>Whatsapp</a></li>
-              <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>Instagram</a></li>
-              <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>YouTube</a></li>
+              {/* <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>Instagram</a></li>
+              <li style={styles.footerLinkItem}><a href="#" style={styles.footerLink}>YouTube</a></li> */}
             </ul>
           </div>
 
