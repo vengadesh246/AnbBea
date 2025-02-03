@@ -15,9 +15,8 @@ const Home = () => {
             <div className="container">
               <h5 className="card-title fs-1 text fw-lighter">New Season Arrivals</h5>
               <p className="card-text fs-5 d-none d-sm-block ">
-                This is a wider card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
+              Tamil Nadu is known for its diverse rice varieties, including Ponni, Sona Masoori, and Seeraga Samba, which are widely used in traditional South Indian cuisine. 
+              These rice types are valued for their distinct aroma, soft texture, and nutritional benefits.
               </p>
             </div>
           </div>

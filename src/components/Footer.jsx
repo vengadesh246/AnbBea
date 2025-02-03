@@ -124,7 +124,7 @@ const MainPage = () => {
             <h3 style={styles.footerHeading}>Contact Information</h3>
             <ul style={styles.footerLinkList}>
               <li style={styles.footerLinkItem}><strong>Email:</strong> srisavadammalricemill@gmail.com </li>
-              <li style={styles.footerLinkItem}><strong>Phone:</strong> +91-7598231354</li>
+              <li style={styles.footerLinkItem}><strong>Phone:</strong> +91-75982313--</li>
               <li style={styles.footerLinkItem}><strong>Address:</strong> Dindigul Hwy, Indira Nagar, Meenachinayakkanpatti, Dharmathupatti, Pallapatti, TamilNadu 624001
             , India</li>
             </ul>
@@ -167,7 +167,7 @@ const MainPage = () => {
 
         {/* Footer Bottom */}
         <div style={styles.footerBottom}>
-          <p>© 2025 Your Business Name. All rights reserved.</p>
+          <p>© 2025 Your AnbBea. All rights reserved.</p>
         </div>
       </footer>
     </div>

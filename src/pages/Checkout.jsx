@@ -12,6 +12,10 @@ const Checkout = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [location, setLocation] = useState("");
+  const [locationFetched, setLocationFetched] = useState(false);
+
+  // Function to check if the checkout button should be enabled
+  const isCheckoutEnabled = firstName.trim() !== "" && locationFetched;
 
   // Function to get the customer's current location
   const fetchLocation = () => {
@@ -20,73 +24,71 @@ const Checkout = () => {
         (position) => {
           const { latitude, longitude } = position.coords;
           setLocation(`https://www.google.com/maps?q=${latitude},${longitude}`);
+          setLocationFetched(true);
         },
         (error) => {
           console.error("Error fetching location: ", error);
           setLocation("Location not available");
+          setLocationFetched(false);
         }
       );
     } else {
       setLocation("Geolocation not supported");
+      setLocationFetched(false);
     }
   };
 
-  const EmptyCart = () => {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12 py-5 bg-light text-center">
-            <h4 className="p-3 display-5">No item in Cart</h4>
-            <Link to="/" className="btn btn-outline-dark mx-4">
-              <i className="fa fa-arrow-left"></i> Continue Shopping
-            </Link>
-          </div>
+  const EmptyCart = () => (
+    <div className="container">
+      <div className="row">
+        <div className="col-md-12 py-5 bg-light text-center">
+          <h4 className="p-3 display-5">No item in Cart</h4>
+          <Link to="/" className="btn btn-outline-dark mx-4">
+            <i className="fa fa-arrow-left"></i> Continue Shopping
+          </Link>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   const ShowCheckout = () => {
     let subtotal = 0;
     let shipping = 30.0;
     let totalItems = 0;
-    let cartMessage = "Your order details:\n\n"; // Message to send via WhatsApp
-  
-    // Loop through cart items and construct the message
+    let cartMessage = "Your order details:\n\n";
+
     state.forEach((item) => {
       subtotal += item.price * item.qty;
       totalItems += item.qty;
-  
-      // Use `item.title` for the product name
       cartMessage += `${item.qty}x ${item.title || "Unnamed Product"} - $${(item.price * item.qty).toFixed(2)}\n`;
     });
-  
+
     cartMessage += `\nSubtotal: $${subtotal.toFixed(2)}\n`;
     cartMessage += `Shipping: $${shipping.toFixed(2)}\n`;
     cartMessage += `Total: $${(subtotal + shipping).toFixed(2)}`;
-  
+
     const handleCheckoutClick = (e) => {
       e.preventDefault();
-  
-      // Include the name and location in the message
+
+      if (!isCheckoutEnabled) {
+        alert("Please enter your first name and fetch your location before proceeding.");
+        return;
+      }
+
       const nameDetails = `\n\nCustomer Name: ${firstName} ${lastName}`;
       const locationDetails = location
         ? `\nCustomer Location: ${location}`
         : "\nCustomer Location: Not provided";
-  
+
       const finalMessage = `${cartMessage}${nameDetails}${locationDetails}`;
-  
-      // WhatsApp link with pre-filled message
+
       const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
         finalMessage
       )}`;
-  
-      // Redirect to WhatsApp
+
       window.open(whatsappUrl, "_blank");
     };
-  
 
-    
     return (
       <>
         <div className="container py-5">
@@ -117,7 +119,7 @@ const Checkout = () => {
                 </div>
               </div>
             </div>
-  
+
             <div className="col-md-7 col-lg-8">
               <div className="card mb-4">
                 <div className="card-header py-3">
@@ -125,17 +127,15 @@ const Checkout = () => {
                 </div>
                 <div className="card-body">
                   <form className="needs-validation" onSubmit={handleCheckoutClick} noValidate>
-                    {/* Billing Address Form */}
                     <div className="row g-3">
                       <div className="col-sm-6 my-1">
                         <label htmlFor="firstName" className="form-label">
-                          First name
+                          First name <span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
                           className="form-control"
                           id="firstName"
-                          placeholder=""
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
                           required
@@ -146,23 +146,18 @@ const Checkout = () => {
                       </div>
                       <div className="col-sm-6 my-1">
                         <label htmlFor="lastName" className="form-label">
-                          Last name
+                          Last name (Optional)
                         </label>
                         <input
                           type="text"
                           className="form-control"
                           id="lastName"
-                          placeholder=""
                           value={lastName}
                           onChange={(e) => setLastName(e.target.value)}
-                          required
                         />
-                        <div className="invalid-feedback">
-                          Valid last name is required.
-                        </div>
                       </div>
                     </div>
-  
+
                     <button
                       type="button"
                       className="btn btn-secondary my-2"
@@ -170,12 +165,11 @@ const Checkout = () => {
                     >
                       Fetch Current Location
                     </button>
-                    {location && (
-                      <p className="text-muted">Location fetched successfully!</p>
-                    )}
-  
+                    {locationFetched && <p className="text-success">Location fetched successfully!</p>}
+                    {!locationFetched && <p className="text-danger">Location is required to proceed.</p>}
+
                     <hr className="my-4" />
-  
+
                     <h4 className="mb-3">Payment Methods</h4>
                     <div className="row gy-3">
                       <div className="col-md-6">
@@ -184,11 +178,12 @@ const Checkout = () => {
                         </label>
                       </div>
                     </div>
-  
+
                     <hr className="my-4" />
                     <button
                       type="submit"
                       className="w-100 btn btn-primary"
+                      disabled={!isCheckoutEnabled} // Button is disabled until conditions are met
                     >
                       Continue to checkout
                     </button>
